@@ -8,7 +8,7 @@
 # In case of error use SEND_ERROR and return()
 #
 # Remove vars from cache
-unset(USE_FOGLAMP_ROOT CACHE)
+set(USE_FOGLAMP_ROOT OFF CACHE INTERNAL OFF)
 set(FOGLAMP_SRC_DIR "" CACHE INTERNAL "")
 set(FOGLAMP_DEFAULT_INCLUDE_DIR "/usr/include/foglamp" CACHE INTERNAL "")
 set(FOGLAMP_DEFAULT_LIBS_DIR "/usr/lib/foglamp" CACHE INTERNAL "")
