@@ -12,11 +12,17 @@ set(USE_FOGLAMP_ROOT OFF CACHE INTERNAL OFF)
 set(FOGLAMP_SRC_DIR "" CACHE INTERNAL "")
 set(FOGLAMP_DEFAULT_INCLUDE_DIR "/usr/include/foglamp" CACHE INTERNAL "")
 set(FOGLAMP_DEFAULT_LIBS_DIR "/usr/lib/foglamp" CACHE INTERNAL "")
+set(FOGLAMP_INCLUDES "" CACHE INTERNAL "")
+set(FOGLAMP_LIBS_DIR "" CACHE INTERNAL "")
 
-# -DUSE_FOGLAMP_ROOT=ON
-if (USE_FOGLAMP_ROOT)
-	# Use FOGLAMP_ROOT path
-	set(FOGLAMP_SRC_DIR $ENV{FOGLAMP_ROOT})
+# No options set
+# If FOGLAMP_ROOT env var is set, use it
+if (NOT FOGLAMP_SRC_DIR AND NOT FOGLAMP_INCLUDES AND NOT FOGLAMP_LIBS_DIR)
+	if (DEFINED ENV{FOGLAMP_ROOT})
+		message(STATUS "No options set.\n" 
+			"   +Using found FOGLAMP_ROOT $ENV{FOGLAMP_ROOT}")
+		set(FOGLAMP_SRC_DIR $ENV{FOGLAMP_ROOT})
+	endif()
 endif()
 
 # -DFOGLAMP_SRC_DIR=/some_path or FOGLAMP_ROOT path
@@ -30,10 +36,27 @@ if (FOGLAMP_SRC_DIR)
 		list(APPEND FOGLAMP_INCLUDE_DIRS ${_ITEM_PATH})
 	endforeach()
 	unset(INCLUDE_LIST CACHE)
+
+	list(REMOVE_DUPLICATES FOGLAMP_INCLUDE_DIRS)
+
+	string (REPLACE ";" "\n   +" DISPLAY_PATHS "${FOGLAMP_INCLUDE_DIRS}")
+	if (NOT DEFINED ENV{FOGLAMP_ROOT})
+		message(STATUS "Using -DFOGLAMP_SRC_DIR option for includes\n   +" "${DISPLAY_PATHS}")
+	else()
+		message(STATUS "Using FOGLAMP_ROOT for includes\n   +" "${DISPLAY_PATHS}")
+	endif()
+
+	if (NOT FOGLAMP_INCLUDE_DIRS)
+		message(SEND_ERROR "Needed FogLAMP header files not found in path ${FOGLAMP_SRC_DIR}/C")
+		return()
+	endif()
 else()
 	# -DFOGLAMP_INCLUDES=/some_path
 	if (NOT FOGLAMP_INCLUDES)
 		set(FOGLAMP_INCLUDES ${FOGLAMP_DEFAULT_INCLUDE_DIR})
+		message(STATUS "Using FogLAMP dev package includes " ${FOGLAMP_INCLUDES})
+	else()
+		message(STATUS "Using -DFOGLAMP_INCLUDES option " ${FOGLAMP_INCLUDES})
 	endif()
 	# Remove current value from cache
 	unset(_FIND_INCLUDES CACHE)
@@ -44,17 +67,12 @@ else()
 	endif()
 	# Remove current value from cache
 	unset(_FIND_INCLUDES CACHE)
+
+	if (NOT FOGLAMP_INCLUDE_DIRS)
+		message(SEND_ERROR "Needed FogLAMP headers file not found in path ${FOGLAMP_INCLUDE_DIRS}")
+		return()
+	endif()
 endif()
-
-if (NOT FOGLAMP_INCLUDE_DIRS)
-	message(SEND_ERROR "FogLAMP include dir not set")
-	return()
-endif()
-
-list(REMOVE_DUPLICATES FOGLAMP_INCLUDE_DIRS)
-
-string (REPLACE ";" "\n  +" DISPLAY_PATHS "${FOGLAMP_INCLUDE_DIRS}")
-message(STATUS "Using FOGLAMP_INCLUDE_DIRS\n  +" "${DISPLAY_PATHS}")
 
 #
 # FogLAMP Libraries
@@ -65,6 +83,12 @@ message(STATUS "Using FOGLAMP_INCLUDE_DIRS\n  +" "${DISPLAY_PATHS}")
 #
 if (FOGLAMP_SRC_DIR)
         set(FOGLAMP_LIBS_DIR "${FOGLAMP_SRC_DIR}/cmake_build/C/lib")
+	if (NOT DEFINED ENV{FOGLAMP_ROOT})
+		message(STATUS "Using -DFOGLAMP_SRC_DIR option for libs \n   +" ${FOGLAMP_LIBS_DIR})
+	else()
+		message(STATUS "Using FOGLAMP_ROOT for libs \n   +" ${FOGLAMP_LIBS_DIR})
+	endif()
+
 	if (NOT EXISTS "${FOGLAMP_SRC_DIR}/cmake_build")
 		message(SEND_ERROR "FogLAMP has not been built yet in ${FOGLAMP_SRC_DIR}  Compile it first.")
 		return()
@@ -72,6 +96,9 @@ if (FOGLAMP_SRC_DIR)
 else()
 	if (NOT FOGLAMP_LIBS_DIR)
 		set(FOGLAMP_LIBS_DIR ${FOGLAMP_DEFAULT_LIBS_DIR})
+		message(STATUS "Using FogLAMP dev package libs " ${FOGLAMP_LIBS_DIR})
+	else()
+		message(STATUS "Using -DFOGLAMP_LIBS_DIR option " ${FOGLAMP_LIBS_DIR})
 	endif()
 endif()
 
@@ -84,14 +111,12 @@ foreach(_LIB ${NEEDED_FOGLAMP_LIBS})
 	if (_FOUND_LIB)
 		# Extract path form founf library file
 		get_filename_component(_DIR_LIB ${_FOUND_LIB} DIRECTORY)
-		else()
+	else()
 		message(SEND_ERROR "Needed FogLAMP library ${_LIB} not found in ${FOGLAMP_LIBS_DIR}")
 		return()
 	endif()
 	# Remove current value from cache
 	unset(_FOUND_LIB CACHE)
 endforeach()
-
-message(STATUS "Using FOGLAMP_LIBS_DIR is " ${FOGLAMP_LIBS_DIR})
 
 set(FOGLAMP_SUCCESS "true")
