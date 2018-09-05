@@ -7,9 +7,9 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Add here all needed FogLAMP libraries as list
-set(NEEDED_FOGLAMP_LIBS services-common-lib common-lib)
+set(NEEDED_FOGLAMP_LIBS common-lib)
 # Add here additional needed libraries
-set(ADD_LIBS -lpython2.7)
+#set(ADD_LIBS -lmylib)
 
 # Find source files
 file(GLOB SOURCES *.cpp)
@@ -33,9 +33,7 @@ include_directories(include)
 include_directories(${FOGLAMP_INCLUDE_DIRS})
 
 # Add other include paths
-include_directories("/home/ubuntu/new-source/develop/FogLAMP/C/thirdparty/rapidjson")
-include_directories("/home/ubuntu/new-source/develop/FogLAMP/C/thirdparty/Simple-Web-Server/")
-include_directories("/usr/include/python2.7")
+#include_directories("/usr/include/mylib")
 
 # Add FogLAMP lib path
 link_directories(${FOGLAMP_LIBS_DIR})
@@ -45,6 +43,13 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 # Add FogLAMP library names
 target_link_libraries(${PROJECT_NAME} ${NEEDED_FOGLAMP_LIBS})
 # Add additional libraries
-target_link_libraries(${PROJECT_NAME} ${ADD_LIBS})
+#target_link_libraries(${PROJECT_NAME} ${ADD_LIBS})
 # Set the build version 
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 1)
+
+set(FOGLAMP_INSTALL_DIR "" CACHE INTERNAL "")
+# Install library
+if (FOGLAMP_INSTALL_DIR)
+	message(STATUS "Installing ${PROJECT_NAME} in ${FOGLAMP_INSTALL_DIR}/plugins/south/${PROJECT_NAME}")
+	install(TARGETS ${PROJECT_NAME} DESTINATION ${FOGLAMP_INSTALL_DIR}/plugins/south/${PROJECT_NAME})
+endif()
