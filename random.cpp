@@ -34,5 +34,5 @@ Reading	Random::takeReading()
 	m_lastValue += ((rand() % 100) > 50 ? 1 : -1) *
 		((rand() % 100) / 20);
 	DatapointValue value(m_lastValue);
-	return Reading("Random", new Datapoint("random", value));
+	return Reading(m_asset_name,new Datapoint("random", value));
 }

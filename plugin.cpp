@@ -15,12 +15,15 @@
 #include <string>
 #include <logger.h>
 #include <plugin_exception.h>
+#include <config_category.h>
 
 using namespace std;
 
 #define PLUGIN_NAME "Random"
 #define CONFIG	"{\"plugin\" : { \"description\" : \"" PLUGIN_NAME " C south plugin\", " \
-			"\"type\" : \"string\", \"default\" : \"" PLUGIN_NAME "\" } } "
+			"\"type\" : \"string\", \"default\" : \"" PLUGIN_NAME "\" }, " \
+		"\"asset\" : { \"description\" : \"Asset name\", " \
+			"\"type\" : \"string\", \"default\" : \"Random\" } } "
 		  
 /**
  * The Random plugin interface
@@ -50,9 +53,17 @@ PLUGIN_INFORMATION *plugin_info()
 /**
  * Initialise the plugin, called to get the plugin handle
  */
-PLUGIN_HANDLE plugin_init(void *config)
+PLUGIN_HANDLE plugin_init(ConfigCategory *config)
 {
 Random *random = new Random();
+	if (config->itemExists("asset"))
+	{
+		random->setAssetName(config->getValue("asset"));
+	}
+	else
+	{
+		random->setAssetName("Random");
+	}
 
 	return (PLUGIN_HANDLE)random;
 }

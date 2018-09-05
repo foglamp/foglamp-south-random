@@ -16,7 +16,13 @@ class Random {
 		Random();
 		~Random();
 		Reading		takeReading();
+	void	setAssetName(const std::string& assetName)
+		{
+			m_asset_name = assetName;
+		}
+
 	private:
 		long		m_lastValue;
+		std::string	m_asset_name;
 };
 #endif
