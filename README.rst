@@ -7,19 +7,25 @@ To build FogLAMP Random C++ South plugin:
 - cd build
 - cmake ..
 
-- By default the FogLAMP develop package header files an libraries
-  are in use: /usr/include/foglamp and /usr/lib/foglamp
+- By default the FogLAMP develop package header files and libraries
+  are expected to be located in /usr/include/foglamp and /usr/lib/foglamp
 - If FOGLAMP_ROOT env var is set and no -D options are set,
-  the header files and libraries paths are set to FOGLAMP_ROOT dir
+  the header files and libraries paths are pulled from the ones under the
+  FOGLAMP_ROOT directory.
+  Please note that you must first run 'make' in the FOGLAMP_ROOT directory.
 
-Options to pass to cmake:
+You may also pass one or more of the following options to cmake to override 
+this default behaviour:
 - FOGLAMP_SRC_DIR sets the path of a FogLAMP source tree
 - FOGLAMP_INCLUDES sets the path to FogLAMP header files
 - FOGLAMP_LIBS sets the path to FogLAMP libraries
 - FOGLAMP_INSTALL_DIR sets the installation path of Random plugin
 
 NOTE:
- - FOGLAMP_INCLUDES must be used with FogLAMP header files all available in a single path
+ - The FOGLAMP_INCLUDES option should point to a location where all the FogLAMP 
+   header files have been installed in a single directory.
+ - The FOGLAMP_LIBS option should point to a location where all the FogLAMP
+   libraries have been installed in a single directory.
  - 'make install' target is defined only when FOGLAMP_INSTALL_DIR is set
 
 Examples:
