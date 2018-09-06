@@ -6,6 +6,8 @@ project(Random)
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+# Set plugin type (south, north, filter)
+set(PLUGIN_TYPE "south")
 # Add here all needed FogLAMP libraries as list
 set(NEEDED_FOGLAMP_LIBS common-lib)
 # Add here additional needed libraries
@@ -50,6 +52,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 1)
 set(FOGLAMP_INSTALL_DIR "" CACHE INTERNAL "")
 # Install library
 if (FOGLAMP_INSTALL_DIR)
-	message(STATUS "Installing ${PROJECT_NAME} in ${FOGLAMP_INSTALL_DIR}/plugins/south/${PROJECT_NAME}")
-	install(TARGETS ${PROJECT_NAME} DESTINATION ${FOGLAMP_INSTALL_DIR}/plugins/south/${PROJECT_NAME})
+	message(STATUS "Installing ${PROJECT_NAME} in ${FOGLAMP_INSTALL_DIR}/plugins/${PLUGIN_TYPE}/${PROJECT_NAME}")
+	install(TARGETS ${PROJECT_NAME} DESTINATION ${FOGLAMP_INSTALL_DIR}/plugins/${PLUGIN_TYPE}/${PROJECT_NAME})
 endif()
