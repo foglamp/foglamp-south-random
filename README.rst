@@ -35,6 +35,7 @@ NOTE:
 Examples:
 
 - no options
+
   $ cmake ..
 
 - no options and FOGLAMP_ROOT set
