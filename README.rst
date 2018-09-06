@@ -16,17 +16,17 @@ To build FogLAMP Random C++ South plugin:
 
 You may also pass one or more of the following options to cmake to override 
 this default behaviour:
-- FOGLAMP_SRC_DIR sets the path of a FogLAMP source tree
-- FOGLAMP_INCLUDES sets the path to FogLAMP header files
-- FOGLAMP_LIBS sets the path to FogLAMP libraries
-- FOGLAMP_INSTALL_DIR sets the installation path of Random plugin
+- FOGLAMP_SRC sets the path of a FogLAMP source tree
+- FOGLAMP_INCLUDE sets the path to FogLAMP header files
+- FOGLAMP_LIB sets the path to FogLAMP libraries
+- FOGLAMP_INSTALL sets the installation path of Random plugin
 
 NOTE:
- - The FOGLAMP_INCLUDES option should point to a location where all the FogLAMP 
+ - The FOGLAMP_INCLUDE option should point to a location where all the FogLAMP 
    header files have been installed in a single directory.
- - The FOGLAMP_LIBS option should point to a location where all the FogLAMP
+ - The FOGLAMP_LIB option should point to a location where all the FogLAMP
    libraries have been installed in a single directory.
- - 'make install' target is defined only when FOGLAMP_INSTALL_DIR is set
+ - 'make install' target is defined only when FOGLAMP_INSTALL is set
 
 Examples:
 
@@ -38,17 +38,17 @@ Examples:
   $ export FOGLAMP_ROOT=/some_foglamp_setup
    
   $ cmake ..
-- set FOGLAMP_SRC_DIR
+- set FOGLAMP_SRC
    
-  $ cmake -DFOGLAMP_SRC_DIR=/home/source/develop/FogLAMP  ..
-- set FOGLAMP_INCLUDES
+  $ cmake -DFOGLAMP_SRC=/home/source/develop/FogLAMP  ..
+- set FOGLAMP_INCLUDE
    
-  $ cmake -DFOGLAMP_INCLUDES=/dev-package/include ..
-- set FOGLAMP_LIBS
+  $ cmake -DFOGLAMP_INCLUDE=/dev-package/include ..
+- set FOGLAMP_LIB
    
-  $ cmake -DFOGLAMP_LIBS=/home/dev/package/lib ..
-- set FOGLAMP_INSTALL_DIR
+  $ cmake -DFOGLAMP_LIB=/home/dev/package/lib ..
+- set FOGLAMP_INSTALL
    
-  $ cmake -DFOGLAMP_INSTALL_DIR=/home/source/develop/FogLAMP
+  $ cmake -DFOGLAMP_INSTALL=/home/source/develop/FogLAMP
    
-  $ cmake -DFOGLAMP_INSTALL_DIR=/usr/local/foglamp
+  $ cmake -DFOGLAMP_INSTALL=/usr/local/foglamp

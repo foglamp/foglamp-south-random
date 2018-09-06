@@ -3,6 +3,15 @@ cmake_minimum_required(VERSION 2.4.0)
 # Set the plugin name to build
 project(Random)
 
+# Supported options:
+# -DFOGLAMP_INCLUDE
+# -DFOGLAMP_LIB
+# -DFOGLAMP_SRC
+# -DFOGLAMP_INSTALL
+#
+# If no -D options are given and FOGLAMP_ROOT environment variable is set
+# then FogLAMP libraries and header files are pulled from FOGLAMP_ROOT path.
+
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -20,7 +29,7 @@ file(GLOB SOURCES *.cpp)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
 find_package(FogLAMP)
 # If errors: make clean and remove Makefile
-if (NOT FOGLAMP_SUCCESS)
+if (NOT FOGLAMP_FOUND)
 	if (EXISTS "${CMAKE_BINARY_DIR}/Makefile")
 		execute_process(COMMAND make clean WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 		file(REMOVE "${CMAKE_BINARY_DIR}/Makefile")
@@ -28,17 +37,20 @@ if (NOT FOGLAMP_SUCCESS)
 	# Stop the build process
 	message(FATAL_ERROR "FogLAMP plugin '${PROJECT_NAME}' build error.")
 endif()
+# On success, FOGLAMP_INCLUDE_DIRS and FOGLAMP_LIB_DIRS variables are set 
 
 # Add ./include
 include_directories(include)
 # Add FogLAMP include dir(s)
 include_directories(${FOGLAMP_INCLUDE_DIRS})
-
 # Add other include paths
-#include_directories("/usr/include/mylib")
+if (FOGLAMP_SRC)
+	message(STATUS "Using third-party includes " ${FOGLAMP_SRC}/C/thirdparty)
+	include_directories(${FOGLAMP_SRC}/C/thirdparty/rapidjson/include)
+endif()
 
 # Add FogLAMP lib path
-link_directories(${FOGLAMP_LIBS_DIR})
+link_directories(${FOGLAMP_LIB_DIRS})
 
 # Create shared library
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
@@ -49,9 +61,9 @@ target_link_libraries(${PROJECT_NAME} ${NEEDED_FOGLAMP_LIBS})
 # Set the build version 
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 1)
 
-set(FOGLAMP_INSTALL_DIR "" CACHE INTERNAL "")
+set(FOGLAMP_INSTALL "" CACHE INTERNAL "")
 # Install library
-if (FOGLAMP_INSTALL_DIR)
+if (FOGLAMP_INSTALL)
 	message(STATUS "Installing ${PROJECT_NAME} in ${FOGLAMP_INSTALL_DIR}/plugins/${PLUGIN_TYPE}/${PROJECT_NAME}")
 	install(TARGETS ${PROJECT_NAME} DESTINATION ${FOGLAMP_INSTALL_DIR}/plugins/${PLUGIN_TYPE}/${PROJECT_NAME})
 endif()
