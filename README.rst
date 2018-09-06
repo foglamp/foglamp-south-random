@@ -31,16 +31,24 @@ NOTE:
 Examples:
 
 - no options
-  cmake ..
+
+  $ cmake ..
 - no options and FOGLAMP_ROOT set
-  export FOGLAMP_ROOT=/some_foglamp_setup
-  cmake ..
+   
+  $ export FOGLAMP_ROOT=/some_foglamp_setup
+   
+  $ cmake ..
 - set FOGLAMP_SRC_DIR
-  cmake -DFOGLAMP_SRC_DIR=/home/source/develop/FogLAMP  ..
+   
+  $ cmake -DFOGLAMP_SRC_DIR=/home/source/develop/FogLAMP  ..
 - set FOGLAMP_INCLUDES
-  cmake -DFOGLAMP_INCLUDES=/dev-package/include ..
+   
+  $ cmake -DFOGLAMP_INCLUDES=/dev-package/include ..
 - set FOGLAMP_LIBS
-  cmake -DFOGLAMP_LIBS=/home/dev/package/lib ..
+   
+  $ cmake -DFOGLAMP_LIBS=/home/dev/package/lib ..
 - set FOGLAMP_INSTALL_DIR
-  cmake -DFOGLAMP_INSTALL_DIR=/home/source/develop/FogLAMP
-  cmake -DFOGLAMP_INSTALL_DIR=/usr/local/foglamp
+   
+  $ cmake -DFOGLAMP_INSTALL_DIR=/home/source/develop/FogLAMP
+   
+  $ cmake -DFOGLAMP_INSTALL_DIR=/usr/local/foglamp
