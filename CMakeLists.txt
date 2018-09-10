@@ -12,8 +12,7 @@ project(Random)
 # If no -D options are given and FOGLAMP_ROOT environment variable is set
 # then FogLAMP libraries and header files are pulled from FOGLAMP_ROOT path.
 
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "-std=c++11 -O3")
 
 # Set plugin type (south, north, filter)
 set(PLUGIN_TYPE "south")
