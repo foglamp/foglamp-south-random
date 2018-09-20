@@ -56,9 +56,9 @@ Examples:
   $ cmake -DFOGLAMP_LIB=/home/dev/package/lib ..
 - set FOGLAMP_INSTALL
 
-  $ cmake -DFOGLAMP_INSTALL=/home/source/develop/FogLAMP
+  $ cmake -DFOGLAMP_INSTALL=/home/source/develop/FogLAMP ..
 
-  $ cmake -DFOGLAMP_INSTALL=/usr/local/foglamp
+  $ cmake -DFOGLAMP_INSTALL=/usr/local/foglamp ..
 
 ******************************
 Packaging for 'random' south
