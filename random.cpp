@@ -17,6 +17,7 @@ Random::Random()
 {
 	srand(time(0));
 	m_lastValue = rand() % 100;
+	m_numAssets = 0;
 }
 
 /**
@@ -26,6 +27,8 @@ Random::~Random()
 {
 }
 
+#define NUM_ASSETS     2500
+
 /**
  * Take a reading from the random "sensor"
  */
@@ -34,5 +37,6 @@ Reading	Random::takeReading()
 	m_lastValue += ((rand() % 100) > 50 ? 1 : -1) *
 		((rand() % 100) / 20);
 	DatapointValue value(m_lastValue);
-	return Reading(m_asset_name,new Datapoint("random", value));
+	++m_numAssets;
+	return Reading(m_asset_name+std::to_string(m_numAssets%NUM_ASSETS),new Datapoint("random", value));
 }

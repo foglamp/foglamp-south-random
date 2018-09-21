@@ -24,5 +24,6 @@ class Random {
 	private:
 		long		m_lastValue;
 		std::string	m_asset_name;
+		long            m_numAssets;
 };
 #endif
