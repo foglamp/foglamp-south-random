@@ -22,7 +22,9 @@ using namespace std;
 #define PLUGIN_NAME "Random"
 #define CONFIG	"{\"plugin\" : { \"description\" : \"" PLUGIN_NAME " C south plugin\", " \
 			"\"type\" : \"string\", \"default\" : \"" PLUGIN_NAME "\" }, " \
-		"\"asset\" : { \"description\" : \"Asset name\", " \
+		"\"numAssets\" : { \"description\" : \"Number of unique assets to simulate\", " \
+			"\"type\" : \"string\", \"default\" : \"1\" }, " \
+		"\"asset\" : { \"description\" : \"Asset name prefix\", " \
 			"\"type\" : \"string\", \"default\" : \"Random\" } } "
 		  
 /**
@@ -64,6 +66,11 @@ Random *random = new Random();
 	{
 		random->setAssetName("Random");
 	}
+
+	if (config->itemExists("numAssets"))
+		random->setNumAssets(stoul(config->getValue("numAssets"), nullptr, 0));
+	else
+		random->setNumAssets(1);
 
 	return (PLUGIN_HANDLE)random;
 }
