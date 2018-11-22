@@ -56,6 +56,7 @@ PLUGIN_INFORMATION *plugin_info()
 PLUGIN_HANDLE plugin_init(ConfigCategory *config)
 {
 Random *random = new Random();
+
 	if (config->itemExists("asset"))
 	{
 		random->setAssetName(config->getValue("asset"));
@@ -90,6 +91,13 @@ Random *random = (Random *)handle;
  */
 void plugin_reconfigure(PLUGIN_HANDLE *handle, string& newConfig)
 {
+ConfigCategory	config("random", newConfig);
+Random		*random = (Random *)handle;
+
+	if (config.itemExists("asset"))
+	{
+		random->setAssetName(config.getValue("asset"));
+	}
 }
 
 /**
