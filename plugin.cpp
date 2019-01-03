@@ -20,7 +20,7 @@
 using namespace std;
 
 #define PLUGIN_NAME "Random"
-#define CONFIG	"{\"plugin\" : { \"description\" : \"" PLUGIN_NAME "Random data generation plugin\", " \
+#define CONFIG	"{\"plugin\" : { \"description\" : \"" PLUGIN_NAME " data generation plugin\", " \
 			"\"type\" : \"string\", \"default\" : \"" PLUGIN_NAME "\", \"readonly\" : \"true\"}, " \
 		"\"asset\" : { \"description\" : \"Asset name\", " \
 			"\"type\" : \"string\", \"default\" : \"Random\", \"displayName\": \"Asset Name\"  } } "
