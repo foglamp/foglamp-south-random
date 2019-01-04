@@ -92,7 +92,7 @@ Random *random = (Random *)handle;
 void plugin_reconfigure(PLUGIN_HANDLE *handle, string& newConfig)
 {
 ConfigCategory	config("random", newConfig);
-Random		*random = (Random *)handle;
+Random		*random = (Random *)*handle;
 
 	if (config.itemExists("asset"))
 	{
