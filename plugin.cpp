@@ -16,14 +16,15 @@
 #include <logger.h>
 #include <plugin_exception.h>
 #include <config_category.h>
+#include <version.h>
 
 using namespace std;
 
 #define PLUGIN_NAME "Random"
-#define CONFIG	"{\"plugin\" : { \"description\" : \"" PLUGIN_NAME " C south plugin\", " \
-			"\"type\" : \"string\", \"default\" : \"" PLUGIN_NAME "\" }, " \
+#define CONFIG	"{\"plugin\" : { \"description\" : \"" PLUGIN_NAME " data generation plugin\", " \
+			"\"type\" : \"string\", \"default\" : \"" PLUGIN_NAME "\", \"readonly\" : \"true\"}, " \
 		"\"asset\" : { \"description\" : \"Asset name\", " \
-			"\"type\" : \"string\", \"default\" : \"Random\" } } "
+			"\"type\" : \"string\", \"default\" : \"Random\", \"displayName\": \"Asset Name\"  } } "
 		  
 /**
  * The Random plugin interface
@@ -35,7 +36,7 @@ extern "C" {
  */
 static PLUGIN_INFORMATION info = {
 	PLUGIN_NAME,              // Name
-	"1.0.0",                  // Version
+	VERSION,                  // Version
 	0,    			  // Flags
 	PLUGIN_TYPE_SOUTH,        // Type
 	"1.0.0",                  // Interface version
@@ -92,7 +93,7 @@ Random *random = (Random *)handle;
 void plugin_reconfigure(PLUGIN_HANDLE *handle, string& newConfig)
 {
 ConfigCategory	config("random", newConfig);
-Random		*random = (Random *)handle;
+Random		*random = (Random *)*handle;
 
 	if (config.itemExists("asset"))
 	{
